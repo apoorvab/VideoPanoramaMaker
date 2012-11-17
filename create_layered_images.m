@@ -1,4 +1,4 @@
-function [ Layered_FinalImg_Luma, Layered_FinalImg_RGB, Layered_FinalImg_Mask ] = create_layered_images( images, Translations )
+function [ Layered_FinalImg_Luma, Layered_FinalImg_RGB, Layered_FinalImg_Mask, Panorama_Offset] = create_layered_images( images, Translations )
 % ===============================================================================
 % PURPOSE:                  Creates a Matrix of the aligned images in layers
 % CREATED:                  Jay Patel
@@ -44,6 +44,7 @@ end
 % Create the layered images ===================================================================================
 Origin_x = abs(Offset_im1_x);
 Origin_y = abs(Offset_im1_y);
+Panorama_Offset = [Origin_x Origin_y];
 
 for i=1:NUM_IMAGES
     
