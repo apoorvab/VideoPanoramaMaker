@@ -1,4 +1,4 @@
-function [H_Best] = myRANSAC(X1, X2, k, distanceThresh, inlierThresh)
+function [H_Best, H_err] = myRANSAC(X1, X2, k, distanceThresh, inlierThresh)
 % ===============================================================================
 % PURPOSE:          Perform RANSAC to obtain H_Best
 % CREATED:          Jay Patel
@@ -64,6 +64,16 @@ for i=1:n:(k*n)
     end
     
 end
+
+
+% Calculate new Points
+X2_Calc = (H_Best*X1')';
+for i=1:size(X2_Calc,2);
+	X2_Calc(:,i) = X2_Calc(:,i)./(X2_Calc(:,3));
+end
+% Find distance error between calculated point and given point
+Error(j) = norm(X2-X2_Calc);  
+H_err = sum(Error)/numpts;
 
 
 
