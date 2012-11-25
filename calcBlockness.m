@@ -1,4 +1,4 @@
-function [ S ] = calc_Blockness( image )
+function [ S ] = calcBlockness( image )
 % ===============================================================================
 % PURPOSE:          Find the Blockness of an image; based on a paper
 % CREATED:          Jay Patel

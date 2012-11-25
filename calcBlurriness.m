@@ -1,4 +1,4 @@
-function [ BlurExtent ] = calc_Blurriness( image )
+function [ BlurExtent ] = calcBlurriness( image )
 % ===============================================================================
 % PURPOSE:          Find the Blurriness of an image; based on a paper
 % CREATED:          Jay Patel
