@@ -2,7 +2,7 @@ function video2pic( videoFile, outputPath, picFormat )
 
 %% Initialization
 if nargin < 1
-    videoFile = 'C:\Users\vivekg\Downloads\west_lake.avi' %input('Input full video path:', 's');
+    videoFile = 'H:\Downloads\west_lake.avi'; %input('Input full video path:', 's');
     %outputPath = input('Input video output path[Default is under the video path]:', 's');
     
     %if isempty(outputPath)
@@ -31,7 +31,7 @@ frameLimit = 100; % This can be set a larger value with enough memory.
 first_frame = 0;
 threshold = 10;
 
-max_val = 0 
+max_val = 0 ;
 while indexFrame(1, 1) <= numFrames
 
     indexFrame(1, 2) = min(numFrames, indexFrame(1, 1) + frameLimit);
