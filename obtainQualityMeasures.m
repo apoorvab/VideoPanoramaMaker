@@ -7,7 +7,7 @@ function [H_err blurr block] = obtainQualityMeasures(frames)
     
     for i = 1:num_frames-1
         
-        [~ H_err(i)] = getHomography(frames(:, :, :, i), frames(:, :, :, i+1));
+        [~, H_err(i)] = getHomography(frames(:, :, :, i), frames(:, :, :, i+1));
 
     end
     
