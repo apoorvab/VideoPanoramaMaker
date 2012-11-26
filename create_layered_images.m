@@ -64,7 +64,7 @@ for i=1:NUM_IMAGES
     
 end
 
-
+Layered_FinalImg_Mask = logical(Layered_FinalImg_Mask)
 
 end
 

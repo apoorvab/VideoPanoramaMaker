@@ -11,7 +11,7 @@ function [stitched_img] = stitchImage(translations, frames, blurr, block)
     panorama_size_y = sum(translations(:, 2)) + FRAME_SIZE_Y;
 
     % Get Matrix of aligned images
-    [Layered_FinalImg_Luma, rgb_final, mask_final, p_offset] = create_layered_images(frames, translations);    
+    [~, rgb_final, mask_final, p_offset] = create_layered_images(frames, translations);    
     
     % Calculate Distance Matrix:
     row_weight = [1:ceil(FRAME_SIZE_X/2) floor(FRAME_SIZE_X/2):-1:1];
@@ -23,7 +23,7 @@ function [stitched_img] = stitchImage(translations, frames, blurr, block)
     w = zeros(panorama_size_y, panorama_size_x, NUM_FRAMES);
     
     for i = 1:NUM_FRAMES
-       w(origin_y:origin_y+FRAME_SIZE_y, origin_x:origin_x+FRAME_SIZE_X, i) = distance_weights;
+       w(origin_y:origin_y+FRAME_SIZE_Y, origin_x:origin_x+FRAME_SIZE_X, i) = distance_weights;
        origin_x = origin_x + translations(i, 1);
        origin_y = origin_y + translations(i, 2);
     end

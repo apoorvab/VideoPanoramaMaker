@@ -11,7 +11,7 @@ function [translations] = findTranslations(frames)
         [H ~] = getHomography(frames(:, :, :, i), frames(:, :, :, i+1));
         
         % Store Translations:
-        translations(i, :) = [-H(2,3) -H(1,3)];
+        translations(i, :) = [-round(H(2,3)) -round(H(1,3))];
         
     end
 

@@ -18,6 +18,6 @@ function [H H_err] = getHomography(im1, im2)
     x_2 = [match(:,3:4) ones(size(match,1),1)];
     
     % Perform RANSAC:
-    [H H_error] = RANSAC(x_1, x_2, NUM_ITERATIONS, DIST_THRESHOLD, INLIER_THRESHOLD);
+    [H H_err] = RANSAC(x_1, x_2, NUM_ITERATIONS, DIST_THRESHOLD, INLIER_THRESHOLD);
     
 end
