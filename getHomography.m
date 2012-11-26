@@ -8,8 +8,7 @@ function [H H_err] = getHomography(im1, im2)
     % Obtain Feature Points:
     [~, desc1, loc1] = sift(im1);
     [~, desc2, loc2] = sift(im2);
-    clear dummy;
-
+    
     % Match Feature Points:
     match = sift_matcher(desc1, loc1, desc2, loc2);
     
