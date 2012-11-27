@@ -1,19 +1,25 @@
-function [ origin, panorama_size ] = getOriginAndDim( Translations, frame_size )
+function [ im1_origin, panorama_size ] = getOriginAndDim( Translations, FRAME_SIZE )
 
-im_size_x = frame_size(1);
-im_size_y = frame_size(2);
+
 NUM_IMAGES = size(Translations,1);
 
 % Find the origin offset of image1 with respect to the Final Panorama AND Find the size of the Panorama ===========
+
+% Offset of the panorama origin with respect to image 1 origin 
 Offset_im1_y = 0;
-Total_Offset_y = 0;
 Offset_im1_x = 0;
+
+% Running total offset
+Total_Offset_y = 0;
 Total_Offset_x = 0;
+
 top_limit = 0; bottom_limit = 0; right_limit = 0; left_limit = 0;
 
-for i=2:NUM_IMAGES
-    Total_Offset_y = Translations(i-1,2)+Total_Offset_y;
-    Total_Offset_x = Translations(i-1,1)+Total_Offset_x;
+for i=1:NUM_IMAGES
+    
+    Total_Offset_y = Translations(i,2)+Total_Offset_y;
+    Total_Offset_x = Translations(i,1)+Total_Offset_x;
+    
     % Offset in y direction    
     if( Total_Offset_y < Offset_im1_y)
         Offset_im1_y = Total_Offset_y;           
@@ -22,6 +28,7 @@ for i=2:NUM_IMAGES
     if( Total_Offset_x < Offset_im1_x)
         Offset_im1_x = Total_Offset_x;           
     end    
+    
     % Find top limit (max y)
     if( Total_Offset_y > top_limit )
         top_limit = Total_Offset_y;
@@ -37,14 +44,15 @@ for i=2:NUM_IMAGES
     % Find left limit (max x)
     if( Total_Offset_x < left_limit )
         left_limit = Total_Offset_x;           
-    end        
+    end
+    
 end
 
-panorama_size_x = right_limit - left_limit + im_size_x;
-panorama_size_y = top_limit - bottom_limit + im_size_y;
+panorama_size_x = right_limit - left_limit + FRAME_SIZE(1);
+panorama_size_y = top_limit - bottom_limit + FRAME_SIZE(2);
 panorama_size = [panorama_size_x panorama_size_y];
 
-origin = [(abs(Offset_im1_x)+1) (abs(Offset_im1_y)+1)];
+im1_origin = [(abs(Offset_im1_x)+1) (abs(Offset_im1_y)+1)];
 
 
 end

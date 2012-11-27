@@ -6,7 +6,9 @@ function [stitched_img] = stitchImage(translations, frames, blurr, block)
     GAMMA = 0.45;
     SIGMASQ = (5).^2;
 
-    % Get Matrix of aligned images
+    translations = [0 0; translations]
+    
+    % Get Matrix of aligned images    
     [~, rgb_final, mask_final, p_offset] = create_layered_images(frames, translations);    
 
     % Compute Panorama Size:
@@ -20,8 +22,7 @@ function [stitched_img] = stitchImage(translations, frames, blurr, block)
     origin_y = p_offset(2);
     
     % Compute w Matrix;
-    w = zeros(panorama_size_y, panorama_size_x, NUM_FRAMES);
-    translations = [0 0; translations]
+    w = zeros(panorama_size_y, panorama_size_x, NUM_FRAMES);   
 
     for i = 1:NUM_FRAMES
         origin_x = origin_x + translations(i, 1);
