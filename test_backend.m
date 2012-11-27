@@ -1,11 +1,12 @@
 clc
+
 clear
 
 
 
 
 MAX_NUM_IMAGES = 100;
-TEST_DIR = 'Backend_Test_Case2';
+TEST_DIR = 'Backend_Test_Case1';
 
 cd(TEST_DIR);
 for i=1:MAX_NUM_IMAGES
@@ -20,16 +21,13 @@ end
 cd ..
 
 % Obtain Quality Measures
-[H_err, blurr, block] = obtainQualityMeasures(images);
+[H_all, H_err, blurr, block, translations] = obtainQualityMeasures(images);
 
-%{
-% Find Translations
-translations = findTranslations(images)
 
 % Composite and Blend Images
-panorama_img = stitchImage(translations, images, blurr, block)
+[panorama_img] = stitchImage(translations, images, blurr, block);
 
-imshow(panorama_img)
+imshow(uint8(panorama_img))
 
-%}
+
 
