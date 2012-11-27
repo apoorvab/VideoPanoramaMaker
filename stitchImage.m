@@ -10,31 +10,28 @@ function [stitched_img] = stitchImage(translations, frames, blurr, block)
     [~, rgb_final, mask_final, p_offset] = create_layered_images(frames, translations);    
 
     % Compute Panorama Size:
-    panorama_size_x = size(rgb_final, 2);
+    panorama_size_x = size(rgb_final, 2); 
     panorama_size_y = size(rgb_final, 1);
     
     % Calculate Distance Matrix:
     row_weight = [1:ceil(FRAME_SIZE_X/2) floor(FRAME_SIZE_X/2):-1:1];
-    distance_weights = ones(FRAME_SIZE_Y, 1) * row_weight;
-    origin_x = p_offset(1) + 1;
-    origin_y = p_offset(2) + 1;
+    distance_weights = repmat(row_weight, [FRAME_SIZE_Y 1]);
+    origin_x = p_offset(1);
+    origin_y = p_offset(2);
     
     % Compute w Matrix;
     w = zeros(panorama_size_y, panorama_size_x, NUM_FRAMES);
-    
-    for i = 1:NUM_FRAMES-1
-       w(origin_y:origin_y+FRAME_SIZE_Y-1, origin_x:origin_x+FRAME_SIZE_X-1, i) = distance_weights;
-       origin_x = origin_x + translations(i, 1);
-       origin_y = origin_y + translations(i, 2);
+    translations = [0 0; translations]
+
+    for i = 1:NUM_FRAMES
+        origin_x = origin_x + translations(i, 1);
+        origin_y = origin_y + translations(i, 2);
+        w(origin_y:origin_y+FRAME_SIZE_Y-1, origin_x:origin_x+FRAME_SIZE_X-1, i) = distance_weights;
     end
     
     disp('Completed w calculation.')
     
     % Compute w' Matrix:
-    r_med = zeros(panorama_size_y, panorama_size_x, NUM_FRAMES);
-    g_med = zeros(panorama_size_y, panorama_size_x, NUM_FRAMES);
-    b_med = zeros(panorama_size_y, panorama_size_x, NUM_FRAMES);
-    
     r_med = repmat(nanmedian(rgb_final(:, :, 1, :), 4), [1 1 NUM_FRAMES]);
     g_med = repmat(nanmedian(rgb_final(:, :, 2, :), 4), [1 1 NUM_FRAMES]);
     b_med = repmat(nanmedian(rgb_final(:, :, 3, :), 4), [1 1 NUM_FRAMES]);

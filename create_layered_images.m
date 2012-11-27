@@ -1,4 +1,4 @@
-function [ Layered_FinalImg_Luma, Layered_FinalImg_RGB, Layered_FinalImg_Mask, Panorama_Offset] = create_layered_images( images, Translations )
+function [ Layered_FinalImg_Luma, Layered_FinalImg_RGB, Layered_FinalImg_Mask, origin] = create_layered_images( images, Translations )
 % ===============================================================================
 % PURPOSE:                  Creates a Matrix of the aligned images in layers
 % CREATED:                  Jay Patel
@@ -18,51 +18,21 @@ im_size_x = size(images, 2);
 im_size_y = size(images, 1);
 NUM_IMAGES = size(images, 4);
 
+frame_size = [im_size_x im_size_y];
 
-% Find the origin offset of image1 with respect to the Final Panorama AND Find the size of the Panorama ===========
-Offset_im1_y = 0;
-Total_Offset_y = 0;
-Offset_im1_x = 0;
-Total_Offset_x = 0;
-top_limit = 0; bottom_limit = 0; right_limit = 0; left_limit = 0;
+[ origin, panorama_size ] = getOriginAndDim( Translations, frame_size );
 
-for i=2:NUM_IMAGES
-    Total_Offset_y = Translations(i-1,2)+Total_Offset_y;
-    Total_Offset_x = Translations(i-1,1)+Total_Offset_x;
-    % Offset in y direction    
-    if( Total_Offset_y < Offset_im1_y)
-        Offset_im1_y = Total_Offset_y;           
-    end    
-    % Offset in x direction    
-    if( Total_Offset_x < Offset_im1_x)
-        Offset_im1_x = Total_Offset_x;           
-    end    
-    % Find top limit (max y)
-    if( Total_Offset_y > top_limit )
-        top_limit = Total_Offset_y;
-    end
-    % Find bottom limit (min y)
-    if( Total_Offset_y < bottom_limit )
-        bottom_limit = Total_Offset_y;
-    end
-    % Find right limit (max x)
-    if( Total_Offset_x > right_limit )
-        right_limit = Total_Offset_x;           
-    end
-    % Find left limit (max x)
-    if( Total_Offset_x < left_limit )
-        left_limit = Total_Offset_x;           
-    end        
-end
+Offset_im1_x = origin(1)-1;
+Offset_im1_y = origin(2)-1;
 
-panorama_size_x = right_limit - left_limit + im_size_x
-panorama_size_y = top_limit - bottom_limit + im_size_y
+panorama_size_x = panorama_size(1);
+panorama_size_y = panorama_size(2);
 
 
 % Create the layered images ===================================================================================
-Origin_x = abs(Offset_im1_x);
-Origin_y = abs(Offset_im1_y);
-Panorama_Offset = [Origin_x Origin_y];
+Origin_x = Offset_im1_x;
+Origin_y = Offset_im1_y;
+
 
 Layered_FinalImg_Luma = NaN(panorama_size_y, panorama_size_x, NUM_IMAGES);
 Layered_FinalImg_RGB = NaN(panorama_size_y, panorama_size_x, 3, NUM_IMAGES);
