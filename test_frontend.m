@@ -1,12 +1,13 @@
 clc
+%{
 
-
-MAX_NUM_IMAGES = 400;
-TEST_DIR = 'Frontend_Test_Case1';
+MAX_NUM_IMAGES = 500;
+TEST_DIR = 'Frontend_Test_Case3';
 
 cd(TEST_DIR);
 for i=1:MAX_NUM_IMAGES
     file = sprintf('%d.jpg', i);
+    i
     if exist(file)
         im = imread(file);
         images(:,:,:,i) = im;  
@@ -22,11 +23,44 @@ shot_range = [1 size(images,4)]
 % Obtain Quality Measures:
 shot_frames = images;
 [H_all, H_err, blurr, block, translations] = obtainQualityMeasures(shot_frames);
+%}
 
 
+
+
+if(0)
+% WEST LAKE =========================
+% Merge Overlap: 50%
+clear
+load west.mat
+DELTA = 200;    
+BETA = 2.75;       
+% ===================================
+end
+
+if(0)
+% DELICATE ARCHES ===================
+% Merge Overlap: 50%
+clear
+load Arches.mat
+DELTA = 200;    
+BETA = 2.75;       
+% ===================================
+end
+
+if(1)
+% VANCOUVER BEACH ===================
+% Merge Overlap: 50%
+clear
+load Vancouver.mat
+DELTA = 200;    
+BETA = 2.6;       
+% ===================================
+end
 
 % Extract Frames:
-[good_frames_idx Ev] = extractGoodFrames(images, H_err', blurr', block', translations)
+FRAME_SIZE = [size(images,2) size(images,1)];
+[good_frames_idx] = extractGoodFrames(H_err', blurr', block', [0 0;translations], FRAME_SIZE, DELTA, BETA)
 
 
 
@@ -42,3 +76,4 @@ imshow(uint8(panorama_img))
 
 
 end
+
