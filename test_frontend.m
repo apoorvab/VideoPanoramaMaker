@@ -23,8 +23,8 @@ shot_range = [1 size(images,4)]
 % Obtain Quality Measures:
 shot_frames = images;
 [H_all, H_err, blurr, block, translations] = obtainQualityMeasures(shot_frames);
-%}
 
+%}
 
 
 
@@ -51,16 +51,16 @@ end
 if(1)
 % VANCOUVER BEACH ===================
 % Merge Overlap: 50%
-clear
-load Vancouver.mat
-DELTA = 200;    
-BETA = 2.6;       
+%clear
+%load Vancouver2.mat
+DELTA = 250;    
+BETA = 2.2;       
 % ===================================
 end
 
 % Extract Frames:
 FRAME_SIZE = [size(images,2) size(images,1)];
-[good_frames_idx] = extractGoodFrames(H_err', blurr', block', [0 0;translations], FRAME_SIZE, DELTA, BETA)
+[good_frames_idx] = extractGoodFrames(H_err', blurr', block', translations, FRAME_SIZE, DELTA, BETA)
 
 
 
@@ -68,7 +68,7 @@ FRAME_SIZE = [size(images,2) size(images,1)];
 for num_pans=1:size(good_frames_idx,1)
 
 % Composite and Blend Images
-[panorama_img] = stitchImage(translations(good_frames_idx(num_pans,1):good_frames_idx(num_pans,2)-1,:), images(:,:,:,good_frames_idx(num_pans,1):good_frames_idx(num_pans,2)), ... 
+[panorama_img] = stitchImage(translations(good_frames_idx(num_pans,1)+1:good_frames_idx(num_pans,2),:), images(:,:,:,good_frames_idx(num_pans,1):good_frames_idx(num_pans,2)), ... 
     blurr(good_frames_idx(num_pans,1):good_frames_idx(num_pans,2)), block(good_frames_idx(num_pans,1):good_frames_idx(num_pans,2)));
 
 figure(num_pans)

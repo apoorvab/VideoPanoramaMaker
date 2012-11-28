@@ -6,10 +6,10 @@ function [stitched_img] = stitchImage(translations, frames, blurr, block)
     GAMMA = 0.45;
     SIGMASQ = (5).^2;
 
-    translations = [0 0; translations]
+    translations = [0 0; translations];
     
     % Get Matrix of aligned images    
-    [~, rgb_final, mask_final, p_offset] = create_layered_images(frames, translations);    
+    [rgb_final, p_offset] = createLayeredImages(frames, translations);    
 
     % Compute Panorama Size:
     panorama_size_x = size(rgb_final, 2); 
@@ -20,6 +20,8 @@ function [stitched_img] = stitchImage(translations, frames, blurr, block)
     distance_weights = repmat(row_weight, [FRAME_SIZE_Y 1]);
     origin_x = p_offset(1);
     origin_y = p_offset(2);
+    
+    t0 = cputime;
     
     % Compute w Matrix;
     w = zeros(panorama_size_y, panorama_size_x, NUM_FRAMES);   
@@ -36,15 +38,11 @@ function [stitched_img] = stitchImage(translations, frames, blurr, block)
     r_med = repmat(nanmedian(rgb_final(:, :, 1, :), 4), [1 1 NUM_FRAMES]);
     g_med = repmat(nanmedian(rgb_final(:, :, 2, :), 4), [1 1 NUM_FRAMES]);
     b_med = repmat(nanmedian(rgb_final(:, :, 3, :), 4), [1 1 NUM_FRAMES]);
-    
-    r_med(~mask_final) = 0;
-    g_med(~mask_final) = 0;
-    b_med(~mask_final) = 0;
-
+  
     w_prime_r = w.*exp(-((squeeze(rgb_final(:, :, 1, :)) - r_med).^2) ./ SIGMASQ);
     w_prime_g = w.*exp(-((squeeze(rgb_final(:, :, 2, :)) - g_med).^2) ./ SIGMASQ);
     w_prime_b = w.*exp(-((squeeze(rgb_final(:, :, 3, :)) - b_med).^2) ./ SIGMASQ);    
-    
+  
     disp('Completed w_prime calculation.')
     clear r_med; clear g_med; clear b_med; clear w;
     
@@ -69,15 +67,6 @@ function [stitched_img] = stitchImage(translations, frames, blurr, block)
     g_final = nansum((w_prime_prime_g .* squeeze(rgb_final(:, :, 2, :))), 3) ./ nansum(w_prime_prime_g, 3);
     b_final = nansum((w_prime_prime_b .* squeeze(rgb_final(:, :, 3, :))), 3) ./ nansum(w_prime_prime_b, 3);
     
-    figure(1)
-    imshow(uint8(r_final))
-    
-    figure(2)
-    imshow(uint8(g_final))
-    
-    figure(3)
-    imshow(uint8(b_final))
-
     disp('Completed w_prime_prime calculation.')
 
     % Stitch Image Together:

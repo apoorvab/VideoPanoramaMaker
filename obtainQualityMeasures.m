@@ -1,12 +1,15 @@
 function [H_all, H_err, blurr, block, translations] = obtainQualityMeasures(frames)
 
-    num_frames = size(frames, 4);
+    NUM_FRAMES = size(frames, 4);
 
     % Obtain H_err:
-    H_err = zeros(1, num_frames-1);
-    H_all = zeros(3, 3, num_frames-1);
+    H_err = zeros(1, NUM_FRAMES-1);
+    H_all = zeros(3, 3, NUM_FRAMES-1);
     
-    for i = 1:num_frames-1
+    % Pre-Alloc:
+    translations = zeros(NUM_FRAMES-1, 2);
+    
+    for i = 1:NUM_FRAMES-1
         disp(' ')
         disp(sprintf('Frames: %d and %d', i, i+1))
         [H_all(:,:,i), H_err(i)] = getHomography(frames(:, :, :, i), frames(:, :, :, i+1));
@@ -14,10 +17,10 @@ function [H_all, H_err, blurr, block, translations] = obtainQualityMeasures(fram
     end
     
     % Pre-allocate:
-    blurr = zeros(1, num_frames);
-    block = zeros(1, num_frames);
+    blurr = zeros(1, NUM_FRAMES);
+    block = zeros(1, NUM_FRAMES);
     
-    for i = 1:num_frames
+    for i = 1:NUM_FRAMES
         
         % Convert to Grayscale:
         grayscale_frame = rgb2gray(frames(:, : , :, i));
@@ -29,5 +32,8 @@ function [H_all, H_err, blurr, block, translations] = obtainQualityMeasures(fram
         block(i) = calcBlockness(grayscale_frame);
         
     end
-
+    
+    % Append Starting Translation:
+    translations = [0 0; translations];
+    
 end
