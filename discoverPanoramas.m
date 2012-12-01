@@ -44,6 +44,9 @@ function discoverPanoramas(video_file, opt_flow_enabled, display_enabled, sampli
             % Save Panorama Image in the directory as video - change later?:
             path = video_file(1:find(video_file=='\', 1, 'last'));
             file_name = video_file(find(video_file=='\', 1, 'last')+1:find(video_file=='.', 1, 'last')-1);
+            if isempty(file_name)
+                file_name=video_file(1:find(video_file=='.', 1, 'last')-1);
+            end
             outputfile = sprintf('%spanorama_%s_%d_%d.jpg', path, file_name, shot_num, num_pans);
             imwrite(stitched_img, outputfile);
             
