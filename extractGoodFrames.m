@@ -133,7 +133,11 @@ function [merged_panorama_idx_ranges] = extractGoodFrames(H_err, blurr, block, t
     disp(sprintf('Number of Remaining Reference Frames in Pool: %d',length(frame_numbers)))
     
     % Merge Ranges
-    [merged_panorama_idx_ranges] = mergeRanges(unique(panorama_idx_range,'rows'), 0.5);
+    if (isempty(panorama_idx_range))
+        merged_panorama_idx_ranges = [];
+    else
+        [merged_panorama_idx_ranges] = mergeRanges(unique(panorama_idx_range,'rows'), 0.5);
+    end
     
 
 
