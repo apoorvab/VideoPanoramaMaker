@@ -12,10 +12,7 @@ function discoverPanoramas(video_file, opt_flow_enabled, display_enabled, sampli
        
         % Obtain Quality Measures:        
         shot_frames = shot{1};
-       
-        imshow(shot_frames(:,:,:,1));
-        imshow(shot_frames(:,:,:,2));
-        
+               
         [~, H_err, blurr, block, translations] = obtainQualityMeasures(shot_frames);
                 
         % Extract Frames:
