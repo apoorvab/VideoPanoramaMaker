@@ -1,10 +1,10 @@
-function discoverPanoramas(video_file, opt_flow_enabled, display_enabled)
+function discoverPanoramas(video_file, opt_flow_enabled, display_enabled, sampling_rate)
     
     %Read Video
     %video_frames = getVideo(video_file, 5);
 
     % Extract List of shots:    
-    [shot_list num_shots FRAME_SIZE]  = extractShots(video_file, 5, 1, 5);
+    [shot_list num_shots FRAME_SIZE]  = extractShots(video_file, 5, 1, sampling_rate);
     fprintf('Number of shots found in video: %d\n', num_shots);
     
     shot_num = 1;
@@ -16,7 +16,7 @@ function discoverPanoramas(video_file, opt_flow_enabled, display_enabled)
         imshow(shot_frames(:,:,:,1));
         imshow(shot_frames(:,:,:,2));
         
-        [H_all, H_err, blurr, block, translations] = obtainQualityMeasures(shot_frames);
+        [~, H_err, blurr, block, translations] = obtainQualityMeasures(shot_frames);
                 
         % Extract Frames:
         
@@ -45,9 +45,9 @@ function discoverPanoramas(video_file, opt_flow_enabled, display_enabled)
             end
             
             % Save Panorama Image in the directory as video - change later?:
-            path = video_file(1, find(video_file=='\', 1, 'last'));
-            file_name = video_file(find(video_file=='\', 1, 'last')+1, find(video_file=='.', 1, 'last')-1);
-            outputfile = sprintf('%spanorama_%s_%d.jpg', path, file_name, shot_num);
+            path = video_file(1:find(video_file=='\', 1, 'last'));
+            file_name = video_file(find(video_file=='\', 1, 'last')+1:find(video_file=='.', 1, 'last')-1);
+            outputfile = sprintf('%spanorama_%s_%d_%d.jpg', path, file_name, shot_num, num_pans);
             imwrite(stitched_img, outputfile);
             
             % Display Image:
