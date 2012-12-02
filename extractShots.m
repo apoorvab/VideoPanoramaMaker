@@ -21,7 +21,7 @@ NumTimes = 1;   % Number of times the stream processing loop should run
 if use_step == 1
     hmfr = vision.VideoFileReader( ...
         'Filename', video_file , ...
-        'PlayCount',  NumTimes, 'VideoOutputDataType', 'uint8');
+        'PlayCount',  NumTimes );
         
     
     % Get the dimensions of each frame.
@@ -66,8 +66,11 @@ startFrame = 1;
 frameRate = 25;
 
 startImg = 0;
+hidtypeconv = ...
+   vision.ImageDataTypeConverter('OutputDataType','uint8');
 
-while count <= NumTimes && frameCount < 10000
+while count <= NumTimes 
+    
     frameCount = frameCount + 1;
     
     
@@ -76,10 +79,12 @@ while count <= NumTimes && frameCount < 10000
     end
  
     if use_step == 1
+        
         I = step(hmfr);        
         if isDone(hmfr)
             count = count+1;
         end
+        
     else
         I = video_frames(:,:,:,frameCount);            % Read input video
         if video_obj.NumberOfFrames == frameCount
@@ -93,6 +98,7 @@ while count <= NumTimes && frameCount < 10000
     end
     
     % Calculate the edge-detected image for one video component.
+    
     I_edge = step(hedge, I(:,:,3));
     
     % Compute mean of every block of the edge image.
@@ -150,7 +156,7 @@ while count <= NumTimes && frameCount < 10000
         startImg = I;
     end
     
-    framesInShot(:,:,:,framesInShotCntr) =  I;
+    framesInShot(:,:,:,framesInShotCntr) =  step(hidtypeconv, I);
     framesInShotCntr = framesInShotCntr+1;
     
     %step(hVideo1, I_out);         % Display the Original Video.
