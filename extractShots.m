@@ -1,7 +1,7 @@
 %Returns downsampled frames of video if no shots are detected.
 %Returns downsampled frames of shots if shots are detected.
 
-function [shots_frames shotCount frame_size] = extract_shots(video_file, threshold_num_changed_blocks, use_step, down_sample )
+function [shots_frames shotCount frame_size] = extract_shots(video_file, threshold, threshold_num_changed_blocks, use_step, down_sample )
 
 
 NumTimes = 1;   % Number of times the stream processing loop should run
@@ -60,7 +60,6 @@ frameCount     = 0;
 shotCount      = 1;
 framesInShot   = uint8([]);
 framesInShotCntr = 1;
-threshold      = 0.8;
 shots_frames = {};
 startFrame = 1;
 frameRate = 25;
