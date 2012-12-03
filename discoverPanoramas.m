@@ -1,18 +1,26 @@
 clc
-    
+clear
+
+% =============================================================
+% System Requirements:
+%
+% 16GB of RAM
+%
+% =============================================================
+
 % Constants:
 video_file = 'pan_2_shots.mp4';
 opt_flow_enabled = 0;
 display_enabled = 0;
 
 % Shot Detection Constants:
-SAMPLING_RATE = 5;
+SAMPLING_RATE = 20;
 EDGE_THRESHOLD = 0.1;
 NUM_CHANGE_BLOCKS = 1;
 
 % Discover Panoramas Constants:
 DELTA = 100;
-BETA = 1.2;
+BETA = 2;
 
 
 %Read Video
@@ -43,10 +51,11 @@ for shot = shot_list
     for num_pans=1:size(good_frames_idx,1)
 
         % Composite and Blend Images
-        [stitched_img] = stitchImage(translations(good_frames_idx(num_pans,1):good_frames_idx(num_pans,2)-1,:), shot_frames(:,:,:,good_frames_idx(num_pans,1):good_frames_idx(num_pans,2)), ... 
-                                    blurr(good_frames_idx(num_pans,1):good_frames_idx(num_pans,2)), block(good_frames_idx(num_pans,1):good_frames_idx(num_pans,2)));
-
-
+        startIdx = good_frames_idx(num_pans,1);
+        endIdx = good_frames_idx(num_pans,2);
+        [stitched_img] =    stitchImage(translations(startIdx+1:endIdx,:), shot_frames(:,:,:,startIdx:endIdx), ... 
+                            blurr(startIdx:endIdx), block(startIdx:endIdx));    
+    
         % Apply Optical Flow:
         if (opt_flow_enabled)
 
