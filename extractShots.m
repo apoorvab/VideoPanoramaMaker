@@ -65,8 +65,10 @@ startFrame = 1;
 frameRate = 25;
 
 startImg = 0;
-hidtypeconv = ...
+hidtypeconv1 = ...
    vision.ImageDataTypeConverter('OutputDataType','uint8');
+hidtypeconv2 = ...
+   vision.ImageDataTypeConverter('OutputDataType','double');
 
 while count <= NumTimes 
     
@@ -98,7 +100,7 @@ while count <= NumTimes
     
     % Calculate the edge-detected image for one video component.
     
-    I_edge = step(hedge, I(:,:,3));
+    I_edge = step(hedge, step(hidtypeconv2, I(:,:,3)));
     
     % Compute mean of every block of the edge image.
     mean_blks = step(hmean, single(I_edge), block_roi);
@@ -155,7 +157,11 @@ while count <= NumTimes
         startImg = I;
     end
     
-    framesInShot(:,:,:,framesInShotCntr) =  step(hidtypeconv, I);
+    if use_step
+        framesInShot(:,:,:,framesInShotCntr) =  step(hidtypeconv1, I);
+    else
+        framesInShot(:,:,:,framesInShotCntr) =  I;
+    end
     framesInShotCntr = framesInShotCntr+1;
     
     %step(hVideo1, I_out);         % Display the Original Video.

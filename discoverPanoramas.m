@@ -1,7 +1,7 @@
 clc
     
 % Constants:
-video_file = 'Mars.avi';
+video_file = 'pan_2_shots.mp4';
 opt_flow_enabled = 0;
 display_enabled = 0;
 
@@ -15,14 +15,11 @@ DELTA = 100;
 BETA = 1.2;
 
 
-
-
-
 %Read Video
 %video_frames = getVideo(video_file, 5);
 
 % Extract List of shots:    
-[shot_list num_shots FRAME_SIZE]  = extractShots(video_file, EDGE_THRESHOLD, NUM_CHANGE_BLOCKS, 1, SAMPLING_RATE);
+[shot_list num_shots FRAME_SIZE]  = extractShots(video_file, EDGE_THRESHOLD, NUM_CHANGE_BLOCKS, 0, SAMPLING_RATE);
 fprintf('Number of shots found in video: %d\n', num_shots);
 
 shot_num = 0;
