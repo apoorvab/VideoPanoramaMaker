@@ -1,0 +1,7 @@
+tmp/
+output/
+*.key
+*.pgm
+bkup/
+*.asv
+
