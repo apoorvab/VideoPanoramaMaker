@@ -1,2 +1,153 @@
 \subsection{Panorama Discovery}
-\lipsum{1-3}
+
+Panorama discovery is defined as finding frames in a video that constitutes a panorama.  
+Videos may contain frames that are not panoramic source images.  
+We consider a video segment with the following properties to be a valid panorama source.  
+A video segment is defined as a series of sequential frames.  There may be multiple video segments within a shot.
+
+\vspace{5 mm}
+
+\noindent\textbf{Property 1}: A video segment should cover a wide field-of-view based on the definition of panorama imagery.
+
+\vspace{5 mm}
+
+\noindent\textbf{Property 2}: A video segment should be “mosaicable”.  
+Specifically, the underlying camera motion between frames should observe a certain camera motion model.  
+We use a homography to model the motion between frames.  This property should be met after the shot detection algorithm.
+
+\vspace{5 mm}
+
+\noindent\textbf{Property 3}: The frames in a video segment should have high image quality.  
+This conservative strategy is adopted so we can ignore methods to improve image visual quality, such as de-blurring and de-blocking.
+
+\vspace{5 mm}
+
+Ideally, we want to discover panoramas that have a very wide field-of-view and are of very high visual quality.  
+Unfortunately, there is a tradeoff in practice.  More frames need to be included in order to have a wider field-of-view.  
+However, including more source frames can often degrade the visual quality due to motion estimation error.  
+We formulate discovering panoramas from a video shot as an optimization problem.  
+The optimization problem aims to find a series of video segments that achieve an optimal balance between maximizing 
+the visual quality of the resulting panoramas and maximizing the scenes they cover.  We implemented a variation
+of the original optimization problem presented in Feng [1].  An overview of the orginal optimization problem is
+described below followed by a detailed explaination of our implemented approximation.
+
+\subsubsection{Original Optimization Problem}
+
+The original optimization problem presented in Feng [1] is shown in (\ref{eq:OrgOptEqu}).
+Directly solving the constrained nonlinear programming problem is difficult.  
+In fact the authors of the paper approximated the optimal solution.  Details of 
+their approximation is discussed in the paper [1].
+
+
+% OPTIMIZATION PROBLEM
+% FIRST LINE
+\begin{equation} 
+\hat{S}=arg min_{S}
+\{ \sum_{S_{i}\epsilon S} E_{v}(S_{i}) + \sum_{S_{i},S_{j}\epsilon S} E_{a}(S_{i},S_{j}) \} \label{eq:OrgOptEqu}
+\end{equation}
+% SECOND LINE
+\begin{equation*}
+where \; S=\{ S_{i} \mid S_{i} \subseteq V \}, \;
+\forall S_{i},S_{j} \epsilon S, \;
+S_{i} \cap S_{j} = {\o}
+\end{equation*}
+% THIRD LINE
+\begin{equation*}
+s.t. \left\{ \begin{array}{l}
+E_{v}(S_{i}) < \delta , \forall S_{i} \epsilon V \\
+\varepsilon(S_{i}) > \beta A , \forall S_{i} \epsilon V
+\end{array} \right.
+\nonumber
+\end{equation*}
+
+\vspace{5 mm}
+
+$S$ denotes a set that contains non-overlapping segments $S_{i}$ of the video clip $V$.
+$E_{v}(S_{i})$ is the visual quality cost of stitching a panorama from $S_{i}$, and
+$E_{a}(S_{i},S_{j})$ is the cost of splitting a panorama from $S_{i} \cup S_{j}$ into smaller
+ones from $S_{i}$ and $S_{j}$ respectively.  $\varepsilon(S_{i})$ denotes the extent of the scene
+in $S_{i}$, which is required to be bigger than $\beta$ times the original video frame
+size $A$.  To gaurantee the visual quality of the panorama, the visual quality distortion
+$E_{v}(S_{i})$ is required to be less than a threshold $\delta$.
+
+\subsubsection{Implemented Approximation}
+
+We relaxed the optimization problem as shown in equation (\ref{eq:OrgOptEqu}) to the two step problem shown in equations (\ref{eq:OurOptEqu1}) and (\ref{eq:OurOptEqu2}).
+A major difference is that we consider overlapping segments $S_{i}$ of the video clip $V$ as part of the set $S$.  This difference
+provides our final algorithm with two major benefits.  The first is that $E_{a}(S_{i},S_{j})$, the cost of splitting a panorama, 
+is no longer considered, which reduces the computational difficulty.  The second is that the user has another tunable parameter $\alpha$ 
+to achieve the desired results.  This is a benefit rather than a disadvantage because to some extent identifying panoramas is
+subjective to the user.  This will be discussed in greater detail in the Experiments section.
+
+\vspace{5 mm}
+
+\noindent\textbf{Step 1:}
+% FIRST LINE
+\begin{equation}
+\hat{S}=arg min_{S} \{ \sum_{S_{i}\epsilon S} E_{v}(S_{i}) \} \label{eq:OurOptEqu1}
+\end{equation}
+% SECOND LINE
+\begin{equation*}
+where \; S=\{ S_{i} \mid S_{i} \subseteq V \} 
+\end{equation*}
+% FOURTH LINE
+\begin{equation*}
+s.t. \left\{ \begin{array}{l}
+E_{v}(S_{i}) < \delta , \; \forall \; S_{i} \epsilon V \\
+\varepsilon(S_{i}) > \beta A , \; \forall \; S_{i} \epsilon V
+\end{array} \right.
+\end{equation*}
+
+\vspace{5 mm}
+
+\noindent\textbf{Step 2:}
+% FIRST LINE
+\begin{equation}
+P = 2^{S} \label{eq:OurOptEqu2}
+\end{equation}
+% SECOND LINE
+\begin{equation*}
+s.t. \{ \varepsilon(P_{i} \cap P_{j}) < min(\alpha \varepsilon(P_{i}),\alpha \varepsilon(P_{j})), \; \forall \; P_{i},P_{j} \epsilon V
+\end{equation*}
+
+\vspace{5 mm}
+
+$S$ denotes a set that may contain overlapping segments $S_{i}$ of the video clip $V$.
+$E_{v}(S_{i})$ is the visual quality cost of stitching a panorama from $S_{i}$.
+$\varepsilon(S_{i})$ denotes the extent of the scene in $S_{i}$, which is required to be bigger than $\beta$ times the original video frame
+size $A$.  To gaurantee the visual quality of the panorama, the visual quality distortion
+$E_{v}(S_{i})$ is required to be less than a threshold $\delta$.
+$P$ is the power set of $S$ that meets the constraint of equation (\ref{eq:OurOptEqu2}).  The constraint is that for any two subsets $P_{i},P_{j}$
+of $P$, the area of their intersection must be less than $\alpha \varepsilon(P_{i})$ and $\alpha \varepsilon(P_{j})$.
+P is the final set of panoramas, which may contain overlapping segments.
+
+As mentioned, $E_{v}(S_{i})$ is the visual quality cost of stitching a panorama from $S_{i}$.  This is measured from two
+aspects: the incorrectness of the motion model denoted as $E_{vm}(S_{i})$, and the source image visual quality distortion
+denoted as $E_{vv}(S_{i})$.
+
+\begin{equation}
+E_{v}(S_{i}) = \alpha_{m} E_{vm}(S_{i}) + \alpha_{v} E_{vv}(S_{i}) \label{eq:Ev}
+\end{equation}
+
+\noindent where $\alpha_{m}$ and $\alpha_{v}$ are weights, with default values 1.0 and 1.0.
+
+The motion model usually cannot be perfectly accurate when describing the correspondence between two frames.  Since we use
+a homography for our motion model, homography error is used to measure the incorrectness of the model.  $E_{vm}(S_{i})$ is 
+the sum of the homography errors between adjacent frames in $S_{i}$ as shown in equation (\ref{eq:Evm}).
+
+\begin{equation}
+E_{vm}(S_{i}) = \sum_{I_{k},I_{k+1} \epsilon S_{i}} H_{error}(I_{k},I_{k+1}) \label{eq:Evm}
+\end{equation}
+
+\noindent where $I_{k}$ is a frame and $H_{error}$ is the homography error between two adjacent frames.
+
+
+
+
+
+
+
+
+
+
+
