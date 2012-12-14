@@ -1,5 +1,4 @@
-clc
-clear
+
 
 s = matlabpool('size');
 if s ~= 0
@@ -7,30 +6,11 @@ if s ~= 0
 end
 
 tic;
-% =============================================================
-% System Requirements:
-%
-% 16GB of RAM
-%
-% =============================================================
-
-%path
 
 
-% Constants:
-video_file = '../data/pan_2_shots_trimmed.mp4';
 opt_flow_enabled = 0;
 display_enabled = 0;
-
-% Shot Detection Constants:
-SAMPLING_RATE = 5;
-EDGE_THRESHOLD = 0.1;
 NUM_CHANGE_BLOCKS = 1;
-
-% Discover Panoramas Constants:
-DELTA = 150;
-BETA = 1.5;
-
 
 %Read Video
 %video_frames = getVideo(video_file, 5);
@@ -91,7 +71,7 @@ for shot = shot_list
 end    
 %cleanup
 tmpfiles = dir('./tmp*');
-n = length(tmpfles);
+n = length(tmpfiles);
 for i = 1:n
     delete(tmpfiles(i).name);
 end
