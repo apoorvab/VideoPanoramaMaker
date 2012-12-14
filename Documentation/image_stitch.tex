@@ -15,7 +15,6 @@ the quality of the final panorama produced. The blending process we utilized con
 a distance-weighted average for each pixel value, median-bilateral filtering, and incorporating the visual 
 quality measurement. The overlapping area between frames consist of multiple pixels that need to blended 
 together. The overall equation that is used is as follows:
-
 \begin{equation}
 I^P(X)=\displaystyle\sum_{k} w_k(x)\tilde{I}_k(x)/\displaystyle\sum_{k} w_k(x)
 \end{equation}
@@ -23,7 +22,6 @@ I^P(X)=\displaystyle\sum_{k} w_k(x)\tilde{I}_k(x)/\displaystyle\sum_{k} w_k(x)
 Where $I_P(X)$ is the pixel value at index $x$ for panorama number $P$, $w_k(x)$ is the weighting for the 
 pixel at index $x$ in frame number $k$, and $\tilde{I}_k(x)$ is the intensity of the pixel at index $x$ in 
 it's corresponding frame $k$. The weighting for each pixel is the product of three calculations:
-
 \begin{equation}
 w_k(x) = w_{k1}(x)w_{k2}(x)w_{k3}(x)
 \end{equation}
@@ -31,19 +29,22 @@ w_k(x) = w_{k1}(x)w_{k2}(x)w_{k3}(x)
 The final weighting for each pixel is the product of three calculations, $w_{k1}(x)$ is the shortest horizontal 
 distance of the pixel $x$ from the nearest vertical edge; this is done to give more weight to those pixels to 
 the center of the image than those at the edge. This calculation is represented by the following equation:
-
 \begin{equation}
-w_{k1}(x) =  
+w_{k1}(x) =  \| \text{arg} \displaystyle\min_{y}\{\|y\|\; \tilde{I}_k (x+y) \text{ is invalid} \}\|
 \end{equation}
 
 Following which $w_{k2}(x)$ is the weighting as a result of a median-bilateral filter which takes into account
 the average (median) value of all the pixels that overlap, from different frames, in the final panorama; this
 is calculated using the equation shown below:
-
 \begin{equation}
-w_{k2}(x) = exp(-(\tilde{I}_k(x)-med(x))^2/\sigma^2)
+w_{k2}(x) = exp (-(\tilde{I}_k(x)-med(x))^2/\sigma^2)
 \end{equation}
 
 Lastly, the third term of the weight calculation, $w_{k3}(x)$, takes into account the individual quality of 
 each frame that the pixel belongs to. The pixels that come frame a frame that is of a higher quality contribute
-a higher weight to the final result.
+a higher weight to the final result; this is shown in the equation below:
+\begin{equation}
+w_{k3}(x) = exp (-(\gamma q_{bk}(k) + (1 - \gamma)q_{br}(k)))
+\end{equation}
+
+This blending method is applied to each color (RGB) in turn and the resulting image is the blended panorama.
