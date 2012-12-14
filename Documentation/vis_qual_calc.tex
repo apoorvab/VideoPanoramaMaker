@@ -73,14 +73,31 @@ The result will be the final edge map.
 Our implementation of the Blockiness algorithm was based on a paper by Wang \cite{Wang}.  
 The blockiness algorithm is designed as a No-Reference quality measurement algorithm for JPEG compressed images.  
 Blockiness is estimated as the average difference across block boundaries.  
-$B_{h}$ is horizontal blockiness and $B_{v}$ is the vertical blockiness.
+$B_{h}$ is the horizontal blockiness and $B_{v}$ is the vertical blockiness.
 
+\begin{equation}
+B_{h}=\frac{1}{M([N/8]-1)} \sum_{i=1}^{M} \sum_{j=1}^{[N/8]-1} |d_{h}(i,8j)|
+\end{equation}
 
+\begin{equation}
+d_{h}(m,n)=x(m,n+1)-x(m,n)
+\end{equation}
 
+\begin{equation}
+B_{v}=\frac{1}{N([M/8]-1)} \sum_{i=1}^{[M/8]-1} \sum_{j=1}^{N} |d_{v}(8i,j)|
+\end{equation}
 
+\begin{equation}
+d_{v}(m,n)=x(m+1,n)-x(m,n)
+\end{equation}
 
+\noindent The final blockiness model is given in the equation below.  We used a value of 0.01 for $\beta$ and 1.0 for $\gamma$.
+We also took into account the activity of the image signal as discussed in the paper \cite{Wang}.
+The blockiness extent is demonstrated in Figure (\ref{fig:tiffanyOriginal}) and Figure (\ref{fig:tiffanyBlocky}).
 
-The final blockiness model is given in the equation below.  We used a value of ?? for $\beta$ and ?? for $\gamma$.
+\begin{equation}
+S=\beta \left(\frac{B_{h}+B{v}}{2}\right)^\gamma
+\end{equation}
 
 
 

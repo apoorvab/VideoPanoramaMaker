@@ -28,16 +28,16 @@ However, including more source frames can often degrade the visual quality due t
 We formulate discovering panoramas from a video shot as an optimization problem.  
 The optimization problem aims to find a series of video segments that achieve an optimal balance between maximizing 
 the visual quality of the resulting panoramas and maximizing the scenes they cover.  We implemented a variation
-of the original optimization problem presented in paper \cite{Feng}.  An overview of the orginal optimization problem is
+of the original optimization problem presented in the paper by Feng \cite{Feng}.  An overview of the orginal optimization problem is
 described below followed by a detailed explaination of our modified optimization problem.  Lastly, our implementation
 is discussed in greater detail.
 
 \subsubsection{Original Optimization Problem}
 
-The original optimization problem presented in paper \cite{Feng} is shown in (\ref{eq:OrgOptEqu}).
+The original optimization problem presented in the paper by Feng \cite{Feng} is shown in (\ref{eq:OrgOptEqu}).
 Directly solving the constrained nonlinear programming problem is difficult.  
 In fact the authors of the paper approximated the optimal solution.  Details of 
-their approximation is discussed in paper \cite{Feng}.
+their approximation is discussed in paper.
 
 
 % OPTIMIZATION PROBLEM
@@ -78,7 +78,7 @@ This difference provides our final algorithm with a major benefit.  The benefit 
 is no longer considered in Step 1, which reduces the computational difficulty.  Instead Step 2 aims to merge segments that greatly overlap.  
 In our modified optimization problem we consider overlapping segments $S_{i}$ of the video clip $V$ as part of the set $S$.  The parameter $\alpha$
 is used to tune the extent of overlap required for segments to be merged.  This is useful because to some extent identifying panoramas is
-subjective to the user.  This will be discussed in greater detail in the Experiments section.
+subjective to the user.  This will be discussed in greater detail in Section (\ref{sec:PanDiscExpSec}).
 
 
 \vspace{5 mm}
@@ -158,7 +158,7 @@ $\gamma$ is a parameter with the default value 0.45.
 \subsubsection{Implementation}
 
 Our implementation is discussed in greater detail due to the complexity of the optimization problem.  The first step in our implementation is to
-find the set $S$.  $S_{i}$ candidates are determined by selecting a reference frame as shown in Figure (\ref{fig:RefFrame})
+find the set $S$.  $S_{i}$ candidates are determined by selecting a reference frame as shown in Figure (\ref{fig:referenceFrame})
 and then appending adjacent frames until the threshold $\delta$ is met.  All possible reference frames are considered to 
 ensure a complete solution.  The set $S$ is determined from the set of $S_{i}$ candidates by verifying the scene extent is sufficient.
 The second step is to merge video segements $S_{i}$ that greatly overlap.  The parameter $\alpha$ is used to tune the extent of overlap.
@@ -181,7 +181,12 @@ The set of segments $P$ are the discovered panoramas.
 \end{enumerate}
 \end{enumerate}
 
-
+\begin{figure}[H] 
+  \centering
+  \includegraphics[scale=0.4]{referenceFrame.jpg}  
+  \caption{All the frames in the video segment are aligned to the reference frame (in red).  
+  The union of all these aligned quadrilaterals is the area covered by the video segment. \cite{Feng}} \label{fig:referenceFrame}
+\end{figure}
 
 
 
