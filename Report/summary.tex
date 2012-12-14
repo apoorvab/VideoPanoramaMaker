@@ -7,8 +7,8 @@ A shot is defined as a continuous frame sequence recorded by a camera setting.  
 The next step is homography and visual quality calculation.  Homographies between frames were determined using SIFT and RANSAC.  
 We assumed no skew or rotation in the homographies to simplify our stitching implementation.  
 Visual quality of each frame was determined using a Blurriness and Blockness algorithm.  
-Our implementation of the Blurriness algorithm was based on a paper by Tong \cite{Tong}.  
-Our implementation of the Blockness algorithm was based on a paper by Wang \cite{Wang}.  The next step is panorama discovery.  
+Our implementation of the Blurriness algorithm was based on a paper by Tong et al \cite{Tong}.  
+Our implementation of the Blockness algorithm was based on a paper by Wang et al \cite{Wang}.  The next step is panorama discovery.  
 This is viewed as a computationally difficult optimization problem.  
 The optimization problem is meant to find a balance between maximizing visual quality and scene extent.  
 We implemented an approximation of this optimization problem.  The last step is image stitching.  We implemented a three stage blending algorithm.  

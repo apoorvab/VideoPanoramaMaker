@@ -7,10 +7,10 @@ Image distortion is measured as a combination of blurriness extend and blockines
 
 \subsubsection{Blurriness}
 
-Our implementation of the Blurriness algorithm was based on a paper by Tong \cite{Tong}.  
+Our implementation of the Blurriness algorithm was based on a paper by Tong et al \cite{Tong}.  
 The blurriness algorithm is based on the edge type and sharpness analysis using Harr wavelet transform.  
 Generally edges are classified into three types; Dirac Structure, Step-Structure, and Roof-Structure.  
-In the paper by Tong \cite{Tong}, Step-Structure is further classified into Astep-Structure and Gstep-Structure.   
+In the paper by Tong et al \cite{Tong}, Step-Structure is further classified into Astep-Structure and Gstep-Structure.   
 The algorithm measures the extent of blurriness as a ratio.  The ratio is the number of likely blurred 
 Gstep-Structure and Roof-Structure edges to the total number of Gstep-Structure and Roof-Structure edges.  
 The classification of edges is obtained from a set of rules applied to the edge maps.  
@@ -70,7 +70,7 @@ The result will be the final edge map.
 
 \subsubsection{Blockiness}
 
-Our implementation of the Blockiness algorithm was based on a paper by Wang \cite{Wang}.  
+Our implementation of the Blockiness algorithm was based on a paper by Wang et al \cite{Wang}.  
 The blockiness algorithm is designed as a No-Reference quality measurement algorithm for JPEG compressed images.  
 Blockiness is estimated as the average difference across block boundaries.  
 $B_{h}$ is the horizontal blockiness and $B_{v}$ is the vertical blockiness.
