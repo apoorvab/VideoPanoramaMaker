@@ -1,7 +1,7 @@
-\subsection{Shot Detection}
+\subsection{Shot Detection} \label{sec:ShotDetect}
 The video can be split into a sequence of shots. Each shot is defined as a continuous frame sequence of shots. Each shot is defined as a continuous frame sequence recorded by a camera setting. 
 Different shots most likely contain different scenes. So we break a video into a shot sequence and discover panoramas from each shot independently. We evaluated couple of methods to find the shots in the video. 
-The first method we implemented was based on color histogram-based shot boundary detection. Its basic idea is that color content does not change rapidly within but across shots.
+The first method we implemented was based on color histogram-based shot boundary detection \cite{Lien}. Its basic idea is that color content does not change rapidly within but across shots.
 Thus, hard cuts can be detected as single peaks in the time series of the differences between color histograms of contiguous frames. 
 
 

@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.8.22)  14 DEC 2012 18:28
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2012.8.22)  14 DEC 2012 20:48
 entering extended mode
  %&-line parsing enabled.
 **final_report
@@ -365,18 +365,14 @@ Overfull \hbox (19.26779pt too wide) in paragraph at lines 186--188
  [][] 
  []
 
-[6]) (./image_stitch.tex))) (./experiments.tex
-
-LaTeX Warning: Reference `sec:ShotDetecExpSec' on page 7 undefined on input lin
-e 3.
-
-(./panorama_disc_exp.tex [7 <./referenceFrame.jpg>]
-<archPan1.jpg, id=50, 1637.11626pt x 269.005pt>
+[6]) (./image_stitch.tex))) (./experiments.tex (./panorama_disc_exp.tex
+[7 <./referenceFrame.jpg>] <archPan1.jpg, id=50, 1637.11626pt x 269.005pt>
 File: archPan1.jpg Graphic file (type jpg)
- <use archPan1.jpg>
-<archPan2.jpg, id=51, 1415.2875pt x 786.94pt>
+
+<use archPan1.jpg> <archPan2.jpg, id=51, 1415.2875pt x 786.94pt>
 File: archPan2.jpg Graphic file (type jpg)
- <use archPan2.jpg>
+
+<use archPan2.jpg>
 Overfull \hbox (20.60616pt too wide) in paragraph at lines 20--26
  [][] 
  []
@@ -410,52 +406,46 @@ File: withFilter.jpg Graphic file (type jpg)
 
 <use withFilter.jpg> (./blending_exp.tex)) (./conclusions.tex)
 (./references.tex
-Underfull \hbox (badness 10000) in paragraph at lines 16--18
+Underfull \hbox (badness 10000) in paragraph at lines 18--20
 []\OT1/cmr/m/n/10 David Lowe. SIFT Key-point De-tec-tor.
  []
 
 
-Overfull \hbox (26.96368pt too wide) in paragraph at lines 19--21
+Overfull \hbox (26.96368pt too wide) in paragraph at lines 21--23
 \OT1/cmr/m/n/10 http://www.youtube.com/watch?v$=$ZMbr8uRk3nM. 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 22--24
+Underfull \hbox (badness 10000) in paragraph at lines 24--26
 []\OT1/cmr/m/n/10 Jericho Beach in Van-cou-ver British
  []
 
 
-Overfull \hbox (27.65811pt too wide) in paragraph at lines 22--24
+Overfull \hbox (27.65811pt too wide) in paragraph at lines 24--26
 \OT1/cmr/m/n/10 http://www.youtube.com/watch?v$=$BrUgzmgDVw8. 
  []
 
-) [9 <./withoutFilter.jpg> <./withFilter.jpg>] (./final_report.aux)
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+) [9 <./withoutFilter.jpg> <./withFilter.jpg>] (./final_report.aux) ) 
 Here is how much of TeX's memory you used:
- 2700 strings out of 256216
- 37095 string characters out of 1917072
+ 2704 strings out of 256216
+ 37120 string characters out of 1917072
  197629 words of memory out of 1500000
- 5910 multiletter control sequences out of 10000+200000
+ 5914 multiletter control sequences out of 10000+200000
  9667 words of font info for 35 fonts, out of 1200000 for 2000
  645 hyphenation exceptions out of 8191
- 35i,7n,38p,1013b,359s stack positions out of 5000i,500n,6000p,200000b,15000s
-</usr/share/texmf/fonts/type1/bluesky/cm/cmbx10.pfb></usr/share/texmf/fonts/t
-ype1/bluesky/cm/cmbx12.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmex10.pfb>
-</usr/share/texmf/fonts/type1/bluesky/cm/cmmi10.pfb></usr/share/texmf/fonts/typ
-e1/bluesky/cm/cmmi5.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmmi7.pfb></us
-r/share/texmf/fonts/type1/bluesky/cm/cmr10.pfb></usr/share/texmf/fonts/type1/bl
-uesky/cm/cmr12.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr17.pfb></usr/sha
-re/texmf/fonts/type1/bluesky/cm/cmr5.pfb></usr/share/texmf/fonts/type1/bluesky/
-cm/cmr7.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr8.pfb></usr/share/texmf
-/fonts/type1/bluesky/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cms
-y7.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmti9.pfb>
-Output written on final_report.pdf (9 pages, 1612825 bytes).
+ 35i,7n,38p,1013b,349s stack positions out of 5000i,500n,6000p,200000b,15000s
+</usr/shar
+e/texmf/fonts/type1/bluesky/cm/cmbx10.pfb></usr/share/texmf/fonts/type1/bluesky
+/cm/cmbx12.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmex10.pfb></usr/share/
+texmf/fonts/type1/bluesky/cm/cmmi10.pfb></usr/share/texmf/fonts/type1/bluesky/c
+m/cmmi5.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmmi7.pfb></usr/share/texm
+f/fonts/type1/bluesky/cm/cmr10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr
+12.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr17.pfb></usr/share/texmf/fon
+ts/type1/bluesky/cm/cmr5.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr7.pfb>
+</usr/share/texmf/fonts/type1/bluesky/cm/cmr8.pfb></usr/share/texmf/fonts/type1
+/bluesky/cm/cmsy10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmsy7.pfb></usr
+/share/texmf/fonts/type1/bluesky/cm/cmti9.pfb>
+Output written on final_report.pdf (9 pages, 1613490 bytes).
 PDF statistics:
  109 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 131072)
